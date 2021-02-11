@@ -51,42 +51,43 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-Hi {}, my name is {}! 
+¡Hola {}, mi nombre es {}! 
 
-I am a Powerful group management bot 🙂  🤿 \nCreated by [My master](https://t.me/Prabha_sha) 
-Based on Project Hexzy written by [★彡ᵖⓡ𝓪Ｂ卄𝒶𝐒𝒽ค彡★](https://t.me/Prabha_sha) 🤩
-You can find my list of available commands with /help.
-Start Me By /start
+Soy un potente bot de gestión de grupos 🙂 🤿 \n
+Puede encontrar mi lista de comandos disponibles con /help.
+Para iniciarme de nuevo pon /start
 
-©2021 [★彡ᵖⓡ𝓪Ｂ卄𝒶𝐒𝒽ค彡★](t.me/Prabha_sha) Bot All Rights Reserved
+©2021 [Skueletor](t.me/DKzippO) Bot Todos los derechos reservados 🦦
 """
 
 HELP_STRINGS = """
-Hey there! My name is *{}*.
-I'm Most Powerfull & I help admins to manage their groups! Have a look at the following for an idea of some of \
-the things I can help you with. 🤿
+¡Hola! Me llamo *{}*.
+¡Soy el más poderoso y ayudo a los administradores a administrar sus grupos!\n\n Eche un vistazo a lo siguiente para tener una idea de algunas de
+las cosas en las que puedo ayudarte. 🤿
 
-*Main* commands available:
- • /help: PM's you this message.
- • /help <module name>: PM's you info about that module.
- • /donate: information on how to donate!
+*Mis* comandos disponibles:
+ • /help: Mensaje de ayuda en privado
+ • /help <nombre del comando>: Te doy información acerca del comando
+ • /donate: ¡Información sobre cómo donar!
  • /settings:
-   • in PM: will send you your settings for all supported modules.
-   • in a group: will redirect you to pm, with all that chat's settings.
+   • en privado: Te enviaré la configuración de todos las configuraciones compatibles.
+   • en un grupo: Te redireccionaré a mi privado, con todas las configuraciones de ese chat.
 
 
 {}
-And the following:
+
+<b>Toca los siguientes botones para saber acerca de los comandos:<\b>
 """.format(
     dispatcher.bot.first_name, ""
-    if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
+    if not ALLOW_EXCL else "\nTodos los comandos se pueden utilizar con / o !.\n")
 
-SAITAMA_IMG = "https://telegra.ph/file/23c40c8b88da2370e9743.jpg"
+SAITAMA_IMG = "https://telegra.ph/file/0b010b96f1cab18b01ea8.jpg"
 
-DONATE_STRING = """Heya, glad to hear you want to donate!
-Senku is hosted on one of Heroku's Servers and doesn't require any donations as of now but \
-You can donate to the original writer of the Base code, Paul
-There are two ways of supporting him on [Telegram](t.me/Prabha_sha)  or  [PayPal](paypal.me/PrabhashaPiumantha)."""
+DONATE_STRING = """¡Hola, me alegra saber que quieres donar!
+
+Hexzy es un proyecto nuevo que necesita apoyo, te dejo el enlace de [PayPal](paypal.me/PrabhashaPiumantha) por si quieres ayudar con este nuevo proyecto, de antemano, gracias ❤️.
+
+<b>Muy pronto los donadores tendrán beneficios dentro del bot...<\b>"""
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -152,7 +153,7 @@ def send_help(chat_id, text, keyboard=None):
 def test(update: Update, context: CallbackContext):
     # pprint(eval(str(update)))
     # update.effective_message.reply_text("Hola tester! _I_ *have* `markdown`", parse_mode=ParseMode.MARKDOWN)
-    update.effective_message.reply_text("This person edited a message")
+    update.effective_message.reply_text("Esta persona editó un mensaje")
     print(update.effective_message)
 
 
@@ -204,31 +205,31 @@ def start(update: Update, context: CallbackContext):
                 reply_markup=InlineKeyboardMarkup(
                     [[
                         InlineKeyboardButton(
-                             text=" 🚑 Support Group ",
-                             url="https://t.me/Gangofmafiateam"),
+                             text=" 🚑 Grupo de Soporte ",
+                             url="https://t.me/TheHexzySupport"),
                          InlineKeyboardButton(
-                             text=" 🦠 Update Channel ",
-                             url="https://t.me/Mafia_Update")
+                             text=" 🦠 Canal de actualizaciones ",
+                             url="https://t.me/TheHexzyChannel")
                      ],
                      [
                         InlineKeyboardButton(
-                            text=" ⛑ Help ",
-                            url="https://t.me/HexzyRobot?start=help"),
+                            text=" ⛑ Ayuda ",
+                            url="https://t.me/TheHexzyBot?start=help"),
                          InlineKeyboardButton(
-                            text=" ⚡️ Developer ",
-                             url="https://t.me/Prabha_sha")        
+                            text=" ⚡️ Creador ",
+                             url="https://t.me/DKzippO")        
                        
                      ], 
                      [
                         InlineKeyboardButton(
-                            text=" ➕ Add Hexzy to Your Group 🎨",
+                            text=" ➕ Añade a Hexzy a tu grupo 🎨",
                             url="t.me/{}?startgroup=true".format(
                                 context.bot.username)),
                     
                     ]]))
     else:
         update.effective_message.reply_text(
-            "I'm awake already!\n<b>Haven't slept since:</b> <code>{}</code>"
+            "¡Estoy despierto!\n<b>No he dormido desde:</b> <code>{}</code>"
             .format(uptime),
             parse_mode=ParseMode.HTML)
 
@@ -275,7 +276,7 @@ def help_button(update, context):
     try:
         if mod_match:
             module = mod_match.group(1)
-            text = ("Here is the help for the *{}* module:\n".format(
+            text = ("Aquí está la ayuda para el comando *{}*:\n".format(
                 HELPABLE[module].__mod_name__) + HELPABLE[module].__help__)
             query.message.edit_text(
                 text=text,
@@ -283,7 +284,7 @@ def help_button(update, context):
                 disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup([[
                     InlineKeyboardButton(
-                        text="Back", callback_data="help_back")
+                        text="↩️ Regresar", callback_data="help_back")
                 ]]))
 
         elif prev_match:
@@ -327,31 +328,31 @@ def get_help(update: Update, context: CallbackContext):
         if len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
             module = args[1].lower()
             update.effective_message.reply_text(
-                f"Contact me in PM to get help of {module.capitalize()}",
+                f"Comuníquese conmigo en privado para obtener ayuda del comando {module.capitalize()}",
                 reply_markup=InlineKeyboardMarkup([[
                     InlineKeyboardButton(
-                        text="Help",
+                        text="⛑ Ayuda",
                         url="t.me/{}?start=ghelp_{}".format(
                             context.bot.username, module))
                 ]]))
             return
         update.effective_message.reply_text(
-            "Contact me in PM to get the list of possible commands.",
+            "Contácteme en privado para obtener la lista de posibles comandos.",
             reply_markup=InlineKeyboardMarkup([[
                 InlineKeyboardButton(
-                    text="Help",
+                    text="⛑ Ayuda",
                     url="t.me/{}?start=help".format(context.bot.username))
             ]]))
         return
 
     elif len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
         module = args[1].lower()
-        text = "Here is the available help for the *{}* module:\n".format(HELPABLE[module].__mod_name__) \
+        text = "Aquí está la ayuda disponible para el comando * {} *:\n".format(HELPABLE[module].__mod_name__) \
                + HELPABLE[module].__help__
         send_help(
             chat.id, text,
             InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="Back",
+                [[InlineKeyboardButton(text="↩️ Regresar",
                                        callback_data="help_back")]]))
 
     else:
@@ -366,13 +367,13 @@ def send_settings(chat_id, user_id, user=False):
                                    for mod in USER_SETTINGS.values())
             dispatcher.bot.send_message(
                 user_id,
-                "These are your current settings:" + "\n\n" + settings,
+                "Éstas son sus configuraciones actuales:" + "\n\n" + settings,
                 parse_mode=ParseMode.MARKDOWN)
 
         else:
             dispatcher.bot.send_message(
                 user_id,
-                "Seems like there aren't any user specific settings available :'(",
+                "Parece que no hay ninguna configuración específica acerca de esto :'(",
                 parse_mode=ParseMode.MARKDOWN)
 
     else:
@@ -387,8 +388,8 @@ def send_settings(chat_id, user_id, user=False):
         else:
             dispatcher.bot.send_message(
                 user_id,
-                "Seems like there aren't any chat settings available :'(\nSend this "
-                "in a group chat you're admin in to find its current settings!",
+                "Parece que no hay ninguna configuración específica acerca de esto :'(\nEnvía esto "
+                "en un chat del grupo en el que eres administrador para encontrar su configuración actual.",
                 parse_mode=ParseMode.MARKDOWN)
 
 
@@ -406,7 +407,7 @@ def settings_button(update: Update, context: CallbackContext):
             chat_id = mod_match.group(1)
             module = mod_match.group(2)
             chat = bot.get_chat(chat_id)
-            text = "*{}* has the following settings for the *{}* module:\n\n".format(escape_markdown(chat.title),
+            text = "*{}* tiene la siguiente configuración para el comando *{}*:\n\n".format(escape_markdown(chat.title),
                                                                                      CHAT_SETTINGS[module].__mod_name__) + \
                    CHAT_SETTINGS[module].__chat_settings__(chat_id, user.id)
             query.message.reply_text(
@@ -414,7 +415,7 @@ def settings_button(update: Update, context: CallbackContext):
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup([[
                     InlineKeyboardButton(
-                        text="Back",
+                        text="↩️ Regresar",
                         callback_data="stngs_back({})".format(chat_id))
                 ]]))
 
@@ -423,8 +424,8 @@ def settings_button(update: Update, context: CallbackContext):
             curr_page = int(prev_match.group(2))
             chat = bot.get_chat(chat_id)
             query.message.reply_text(
-                "Hi there! There are quite a few settings for {} - go ahead and pick what "
-                "you're interested in.".format(chat.title),
+                "¡Hola! Hay bastantes configuraciones para {}. Continúe y elije lo"
+                "que te interesa.".format(chat.title),
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(
                         curr_page - 1, CHAT_SETTINGS, "stngs", chat=chat_id)))
@@ -434,8 +435,8 @@ def settings_button(update: Update, context: CallbackContext):
             next_page = int(next_match.group(2))
             chat = bot.get_chat(chat_id)
             query.message.reply_text(
-                "Hi there! There are quite a few settings for {} - go ahead and pick what "
-                "you're interested in.".format(chat.title),
+                "¡Hola! Hay bastantes configuraciones para {}. Continúe y elije lo "
+                "que te interesa.".format(chat.title),
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(
                         next_page + 1, CHAT_SETTINGS, "stngs", chat=chat_id)))
@@ -444,8 +445,8 @@ def settings_button(update: Update, context: CallbackContext):
             chat_id = back_match.group(1)
             chat = bot.get_chat(chat_id)
             query.message.reply_text(
-                text="Hi there! There are quite a few settings for {} - go ahead and pick what "
-                "you're interested in.".format(escape_markdown(chat.title)),
+                text="¡Hola! Hay bastantes configuraciones para {}. Continúe y elije lo "
+                "que te interesa.".format(escape_markdown(chat.title)),
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(0, CHAT_SETTINGS, "stngs", chat=chat_id)))
@@ -454,11 +455,11 @@ def settings_button(update: Update, context: CallbackContext):
         bot.answer_callback_query(query.id)
         query.message.delete()
     except BadRequest as excp:
-        if excp.message == "Message is not modified":
+        if excp.message == "El mensaje no se ha modificado":
             pass
         elif excp.message == "Query_id_invalid":
             pass
-        elif excp.message == "Message can't be deleted":
+        elif excp.message == "El mensaje no se puede borrar":
             pass
         else:
             LOGGER.exception("Exception in settings buttons. %s",
@@ -474,17 +475,17 @@ def get_settings(update: Update, context: CallbackContext):
     # ONLY send settings in PM
     if chat.type != chat.PRIVATE:
         if is_user_admin(chat, user.id):
-            text = "Click here to get this chat's settings, as well as yours."
+            text = "Haga clic aquí para obtener la configuración de este chat, así como la suya."
             msg.reply_text(
                 text,
                 reply_markup=InlineKeyboardMarkup([[
                     InlineKeyboardButton(
-                        text="Settings",
+                        text="⚙️ Ajustes",
                         url="t.me/{}?start=stngs_{}".format(
                             context.bot.username, chat.id))
                 ]]))
         else:
-            text = "Click here to check your settings."
+            text = "Haga clic aquí para verificar su configuración."
 
     else:
         send_settings(chat.id, user.id, True)
@@ -503,8 +504,8 @@ def donate(update: Update, context: CallbackContext):
 
         if OWNER_ID != 254318997 and DONATION_LINK:
             update.effective_message.reply_text(
-                "You can also donate to the person currently running me "
-                "[here]({})".format(DONATION_LINK),
+                "También puedes donar a la persona que me diseñó "
+                "[tocando aquí]({})".format(DONATION_LINK),
                 parse_mode=ParseMode.MARKDOWN)
 
     else:
@@ -516,10 +517,10 @@ def donate(update: Update, context: CallbackContext):
                 disable_web_page_preview=True)
 
             update.effective_message.reply_text(
-                "I've PM'ed you about donating to my creator!")
+                "¡Te he enviado un mensaje privado acerca sobre cómo puedes hacer la donación a mi creador!")
         except Unauthorized:
             update.effective_message.reply_text(
-                "Contact me in PM first to get donation information.")
+                "Primero comuníquese conmigo por privado para obtener información sobre la donación.")
 
 
 def migrate_chats(update: Update, context: CallbackContext):
@@ -537,7 +538,7 @@ def migrate_chats(update: Update, context: CallbackContext):
     for mod in MIGRATEABLE:
         mod.__migrate__(old_chat, new_chat)
 
-    LOGGER.info("Successfully migrated!")
+    LOGGER.info("¡Migrado exitosamente!")
     raise DispatcherHandlerStop
 
 
@@ -545,10 +546,10 @@ def main():
 
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
-            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "I am now online!")
+            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "¡Ahora estoy en línea!")
         except Unauthorized:
             LOGGER.warning(
-                "Bot isnt able to send message to support_chat, go and check!")
+                "El bot no puede enviar un mensaje a support_chat, ¡ve y verifica!")
         except BadRequest as e:
             LOGGER.warning(e.message)
 
