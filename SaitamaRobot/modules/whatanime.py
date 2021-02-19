@@ -57,15 +57,15 @@ async def whatanime(c: Client, m: Message):
         if not getattr(reply, 'empty', True):
             media = reply.photo or reply.animation or reply.video or reply.document
     if not media:
-        await m.reply_text('Photo or GIF or Video required')
+        await m.reply_text('Se requiere Foto, GIF o Video')
         return
     with tempfile.TemporaryDirectory() as tempdir:
-        reply = await m.reply_text('Downloading...')
+        reply = await m.reply_text('Descargando...')
         path = await c.download_media(media, file_name=os.path.join(tempdir, '0'), progress=progress_callback, progress_args=(reply,))
         new_path = os.path.join(tempdir, '1.png')
         proc = await asyncio.create_subprocess_exec('ffmpeg', '-i', path, '-frames:v', '1', new_path)
         await proc.communicate()
-        await reply.edit_text('Uploading...')
+        await reply.edit_text('Subiendo...')
         with open(new_path, 'rb') as file:
             async with session.post('https://trace.moe/api/search', data={'image': file}) as resp:
                 json = await resp.json()
@@ -75,7 +75,7 @@ async def whatanime(c: Client, m: Message):
         try:
             match = next(iter(json['docs']))
         except StopIteration:
-            await reply.edit_text('No match')
+            await reply.edit_text('Sin coincidencia')
         else:
             nsfw = match['is_adult']
             title_native = match['title_native']
@@ -98,10 +98,10 @@ async def whatanime(c: Client, m: Message):
             if title_native:
                 text += f' ({title_native})'
             if synonyms:
-                text += f'\n<b>Synonyms:</b> {synonyms}'
-            text += f'\n<b>Similarity:</b> {(Decimal(similarity) * 100).quantize(Decimal(".01"))}%\n'
+                text += f'\n<b>Sinónimos:</b> {synonyms}'
+            text += f'\n<b>Similares:</b> {(Decimal(similarity) * 100).quantize(Decimal(".01"))}%\n'
             if episode:
-                text += f'<b>Episode:</b> {episode}\n'
+                text += f'<b>Episodio:</b> {episode}\n'
             if nsfw:
                 text += '<b>Hentai/NSFW:</b> no'
 
@@ -118,7 +118,7 @@ async def whatanime(c: Client, m: Message):
                     try:
                         await reply.reply_video(file.name, caption=f'{from_time} - {to_time}')
                     except Exception:
-                        await reply.reply_text('Cannot send preview :/')
+                        await reply.reply_text('No se puede enviar la vista previa :/')
             await asyncio.gather(reply.edit_text(text, disable_web_page_preview=True), _send_preview())
 
 
@@ -137,13 +137,13 @@ async def progress_callback(current, total, reply):
                 (total - current) / (time.time() - start_time))
         else:
             download_speed = '0 B'
-        text = f'''Downloading...
+        text = f'''Descargando...
 <code>{return_progress_string(current, total)}</code>
 
-<b>Total Size:</b> {format_bytes(total)}
-<b>Downladed Size:</b> {format_bytes(current)}
-<b>Download Speed:</b> {download_speed}/s
-<b>ETA:</b> {calculate_eta(current, total, start_time)}'''
+<b>Tamaño total:</b> {format_bytes(total)}
+<b>Tamaño de descarga:</b> {format_bytes(current)}
+<b>Velocidad de descarga:</b> {download_speed}/s
+<b>Tiempo estimado:</b> {calculate_eta(current, total, start_time)}'''
         if prevtext != text:
             await reply.edit_text(text)
             prevtext = text
