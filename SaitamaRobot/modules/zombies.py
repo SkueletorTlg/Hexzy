@@ -51,22 +51,22 @@ async def is_administrator(user_id: int, message):
 
 @telethn.on(events.NewMessage(pattern=f"^[!/]zombies ?(.*)"))
 async def zombies(event):
-    """ For .zombies command, list all the zombies in a chat. """
+    """ El comando .zombies enumera todos los usuarios eliminaron sus cuentas. """
 
     con = event.pattern_match.group(1).lower()
     del_u = 0
-    del_status = "No Deleted Accounts Found, Group Is Clean."
+    del_status = "No se encontraron cuentas eliminadas, el grupo está limpio."
 
     if con != "clean":
-        find_zombies = await event.respond("Searching For Zombies...")
+        find_zombies = await event.respond("Buscando Zombies...")
         async for user in event.client.iter_participants(event.chat_id):
 
             if user.deleted:
                 del_u += 1
                 await sleep(1)
         if del_u > 0:
-            del_status = f"Found **{del_u}** Zombies In This Group.\
-            \nClean Them By Using :-\n 👉 `/zombies clean`"
+            del_status = f"Encontré **{del_u}** Zombies en este grupo\
+            \nPuedes eliminarlos del grupo usando:-\n 👉 `/zombies clean`"
         await find_zombies.edit(del_status)
         return
 
@@ -78,14 +78,14 @@ async def zombies(event):
     # Well
     
     if not await is_administrator(user_id=event.from_id, message=event):
-        await event.respond("You're Not An Admin!")
+        await event.respond("¡No eres admin de este grupo!")
         return
     
     if not admin and not creator:
-        await event.respond("I Am Not An Admin Here!")
+        await event.respond("¡No soy admin aquí!")
         return
 
-    cleaning_zombies = await event.respond("Cleaning Zombies...")
+    cleaning_zombies = await event.respond("Eliminando Zombies...")
     del_u = 0
     del_a = 0
 
@@ -96,7 +96,7 @@ async def zombies(event):
                     EditBannedRequest(event.chat_id, user.id, BANNED_RIGHTS)
                 )
             except ChatAdminRequiredError:
-                await cleaning_zombies.edit("I Don't Have Ban Rights In This Group.")
+                await cleaning_zombies.edit("No tengo permisos para banear en este grupo.")
                 return
             except UserAdminInvalidError:
                 del_u -= 1
@@ -105,10 +105,10 @@ async def zombies(event):
             del_u += 1
 
     if del_u > 0:
-        del_status = f"Cleaned `{del_u}` Zombies"
+        del_status = f"Se han eliminado `{del_u}` Zombies"
 
     if del_a > 0:
-        del_status = f"Cleaned `{del_u}` Zombies \
-        \n`{del_a}` Zombie Admin Accounts Are Not Removed!"
+        del_status = f"Se han eliminado `{del_u}` Zombies \
+        \n`{del_a}` ¡Los usuarios con cuentas eliminadas y rol de admin no se pueden eliminar!"
 
     await cleaning_zombies.edit(del_status)
