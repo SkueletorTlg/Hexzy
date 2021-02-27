@@ -6,7 +6,7 @@ from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from telegram import Update
 from telegram.ext import CallbackContext, run_async
 
-# Wallpapers module by @TheRealPhoenix using wall.alphacoders.com
+# Wallpapers module by @DKzippO using wall.alphacoders.com
 
 
 @run_async
@@ -18,7 +18,7 @@ def wall(update: Update, context: CallbackContext):
     bot = context.bot
     query = " ".join(args)
     if not query:
-        msg.reply_text("Please enter a query!")
+        msg.reply_text("¡Ingresa una palabra para buscar fondos de pantalla!")
         return
     else:
         caption = query
@@ -27,11 +27,11 @@ def wall(update: Update, context: CallbackContext):
             f"https://wall.alphacoders.com/api2.0/get.php?auth={WALL_API}&method=search&term={term}"
         ).json()
         if not json_rep.get("success"):
-            msg.reply_text(f"An error occurred! Report this @{SUPPORT_CHAT}")
+            msg.reply_text(f"¡Ha ocurrido un error! :(/nReporta esto en @{SUPPORT_CHAT}")
         else:
             wallpapers = json_rep.get("wallpapers")
             if not wallpapers:
-                msg.reply_text("No results found! Refine your search.")
+                msg.reply_text("¡No se han encontrado resultados! Refina tu búsqueda.")
                 return
             else:
                 index = randint(0, len(wallpapers) - 1)  # Choose random index
