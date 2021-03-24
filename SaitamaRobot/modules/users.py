@@ -89,7 +89,7 @@ def broadcast(update: Update, context: CallbackContext):
                 except TelegramError:
                     failed_user += 1
         update.effective_message.reply_text(
-            f"Broadcast complete.\nGroups failed: {failed}.\nUsers failed: {failed_user}."
+            f"Transmisión completa.\nFallo de grupos: {failed}.\nLos usuarios fallaron: {failed_user}."
         )
 
 
@@ -114,7 +114,7 @@ def log_user(update: Update, context: CallbackContext):
 @sudo_plus
 def chats(update: Update, context: CallbackContext):
     all_chats = sql.get_all_chats() or []
-    chatfile = 'List of chats.\n0. Chat name | Chat ID | Members count\n'
+    chatfile = 'Lista de chats.\n0. Nombre del grupo | Chat ID | Los miembros cuentan\n'
     P = 1
     for chat in all_chats:
         try:
@@ -132,7 +132,7 @@ def chats(update: Update, context: CallbackContext):
         update.effective_message.reply_document(
             document=output,
             filename="groups_list.txt",
-            caption="Here be the list of groups in my database.")
+            caption="Aquí está la lista de grupos en mi base de datos.")
 
 
 @run_async
@@ -148,11 +148,11 @@ def chat_checker(update: Update, context: CallbackContext):
 
 def __user_info__(user_id):
     if user_id in [777000, 1087968824]:
-        return """╘══「 Groups count: <code>???</code> 」"""
+        return """╘══「 Número de usuarios en el grupo: <code>???</code> 」"""
     if user_id == dispatcher.bot.id:
-        return """╘══「 Groups count: <code>???</code> 」"""
+        return """╘══「 Número de usuarios en el grupo: <code>???</code> 」"""
     num_chats = sql.get_user_num_chats(user_id)
-    return f"""╘══「 Groups count: <code>{num_chats}</code> 」"""
+    return f"""╘══「 Número de usuarios en el grupo: <code>{num_chats}</code> 」"""
 
 
 def __stats__():
