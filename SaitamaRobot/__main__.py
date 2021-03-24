@@ -57,7 +57,7 @@ Soy un potente bot de gestión de grupos 🙂 🤿 \n
 Puede encontrar mi lista de comandos disponibles con /help.
 Para iniciarme de nuevo pon /start
 
-©2021 [Skueletor](t.me/DKzippO) Bot Todos los derechos reservados 🦦
+©2021 Bot de [Skueletor](t.me/DKzippO), Todos los derechos reservados 🦦
 """
 
 HELP_STRINGS = """
@@ -85,7 +85,7 @@ SAITAMA_IMG = "https://telegra.ph/file/0b010b96f1cab18b01ea8.jpg"
 
 DONATE_STRING = """¡Hola, me alegra saber que quieres donar!
 
-Hexzy es un proyecto nuevo que necesita apoyo, te dejo el enlace de [PayPal](paypal.me/PrabhashaPiumantha) por si quieres ayudar con este nuevo proyecto, de antemano, gracias ❤️.
+Hexzy es un proyecto nuevo que necesita apoyo, te dejo el enlace de [PayPal](paypal.me/proyectomenacho) por si quieres ayudar con este nuevo proyecto, de antemano, gracias ❤️.
 
 <b>Muy pronto los donadores tendrán beneficios dentro del bot...<\b>"""
 
